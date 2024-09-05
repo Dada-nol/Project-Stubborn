@@ -6,7 +6,10 @@
 {% block body %}
 	{% if products %}
 		{% for product in products %}
-			<p>{{product.name}}</p>
+
+			<a href="{{path('app_one_product', {'id':product.id}) }}">
+				<p>{{product.name}}</p>
+			</a>
 		{% endfor %}
 	{% endif %}
 {% endblock %}
