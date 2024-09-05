@@ -4,15 +4,23 @@
 {% endblock %}
 
 {% block body %}
-	{{form_errors(productForm)}}
 
-	{{form_start(productForm)}}
+	{% if is_granted('ROLE_ADMIN') %}
+		{{form_errors(productForm)}}
 
-	{{form_row(productForm.name)}}
-	{{form_row(productForm.price)}}
+		{{form_start(productForm)}}
 
-	<button type="submit" class="btn">Register</button>
+		{{form_row(productForm.name)}}
+		{{form_row(productForm.price)}}
 
-	{{form_end(productForm)}}
+		<button type="submit" class="btn">Register</button>
+
+		{{form_end(productForm)}}
+
+
+	{% else %}
+		<h3>Vous n'avez pas les autorisations nécessaire pour accéder à cette page</h3>
+		<a href="{{path('app_home')}}">Retourner à l'accueil</a>
+	{% endif %}
 
 {% endblock %}
