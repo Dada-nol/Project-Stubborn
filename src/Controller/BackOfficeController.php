@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\SweatShirts;
+use App\Form\DeleteSweatType;
 use App\Form\SweatShirtType;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
@@ -52,5 +53,29 @@ class BackOfficeController extends AbstractController
         }
 
         return $this->render('back_office/index.html.twig', ['productForm' => $form->createView(),]);
+    }
+
+    #[Route('/delete/{id}', name: 'delete')]
+    public function delete(Request $request, EntityManagerInterface $entityManager, int $id): Response
+    {
+        $product = $entityManager->getRepository(SweatShirts::class)->find($id);
+        $form = $this->createForm(DeleteSweatType::class, $product);
+
+        if (!$product) {
+            throw $this->createNotFoundException(
+                'No SweatShirt found for id' . $id
+            );
+        }
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $entityManager->remove($product);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_all_product');
+        }
+
+        return $this->render('back_office/delete.html.twig', ['deleteSweatShirt' => $form->createView(),]);
     }
 }
