@@ -16,7 +16,7 @@ class SweatShirtController extends AbstractController
         $products = $manager->getRepository(SweatShirts::class)->findAll();
 
 
-        return $this->render('all_product.html.twig', [
+        return $this->render('sweat_shirt/all_product.html.twig', [
             'products' => $products,
         ]);
     }
@@ -30,7 +30,7 @@ class SweatShirtController extends AbstractController
             throw $this->createNotFoundException('Produit non trouvé');
         }
 
-        return $this->render('one_product.html.twig', [
+        return $this->render('sweat_shirt/one_product.html.twig', [
             'product' => $product,
         ]);
     }

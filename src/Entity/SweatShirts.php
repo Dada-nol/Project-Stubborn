@@ -18,8 +18,8 @@ class SweatShirts
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column]
-    private ?int $price = null;
+    #[ORM\Column(type: 'decimal', precision: 10, scale: 2)]
+    private ?string $price = null;
 
     /**
      * @var Collection<int, Stock>
@@ -50,12 +50,12 @@ class SweatShirts
         return $this;
     }
 
-    public function getPrice(): ?int
+    public function getPrice(): ?string
     {
         return $this->price;
     }
 
-    public function setPrice(int $price): static
+    public function setPrice(string $price): self
     {
         $this->price = $price;
 

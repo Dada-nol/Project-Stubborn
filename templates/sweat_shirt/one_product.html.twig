@@ -1,6 +1,12 @@
 {% extends "base.html.twig" %}
 
-{% block title %}Détail Produit
+{% block title %}Back-office
 {% endblock %}
 
-{% block body %}{% endblock %}
+{% block body %}
+	{% if product %}
+
+		<p>{{product.name}}</p>
+
+	{% endif %}
+{% endblock %}
