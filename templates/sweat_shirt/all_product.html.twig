@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello SweatShirtController!
+{% endblock %}
+
+{% block body %}
+	{% if products %}
+		{% for product in products %}
+
+			<a href="{{path('app_one_product', {'id':product.id}) }}">
+				<p>{{product.name}}</p>
+			</a>
+		{% endfor %}
+	{% endif %}
+{% endblock %}

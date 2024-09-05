@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello BackOfficeController!
+{% endblock %}
+
+{% block body %}
+	{{form_errors(productForm)}}
+
+	{{form_start(productForm)}}
+
+	{{form_row(productForm.name)}}
+	{{form_row(productForm.price)}}
+
+	<button type="submit" class="btn">Register</button>
+
+	{{form_end(productForm)}}
+
+{% endblock %}
