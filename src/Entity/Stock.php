@@ -18,11 +18,11 @@ class Stock
 
     #[ORM\ManyToOne(inversedBy: 'stocks')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?SweatShirts $SweatShirt_id = null;
+    private ?SweatShirts $SweatShirt = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Sizes $Size_id = null;
+    private ?TailleSweat $Size = null;
 
     public function getId(): ?int
     {
@@ -43,24 +43,24 @@ class Stock
 
     public function getSweatShirtId(): ?SweatShirts
     {
-        return $this->SweatShirt_id;
+        return $this->SweatShirt;
     }
 
-    public function setSweatShirtId(?SweatShirts $SweatShirt_id): static
+    public function setSweatShirtId(?SweatShirts $SweatShirt): static
     {
-        $this->SweatShirt_id = $SweatShirt_id;
+        $this->SweatShirt = $SweatShirt;
 
         return $this;
     }
 
-    public function getSizeId(): ?Sizes
+    public function getSizeId(): ?TailleSweat
     {
-        return $this->Size_id;
+        return $this->Size;
     }
 
-    public function setSizeId(?Sizes $Size_id): static
+    public function setSizeId(?TailleSweat $Size): static
     {
-        $this->Size_id = $Size_id;
+        $this->Size = $Size;
 
         return $this;
     }

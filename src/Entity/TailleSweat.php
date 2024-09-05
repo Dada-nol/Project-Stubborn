@@ -6,7 +6,7 @@ use App\Repository\TailleSweatRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: TailleSweatRepository::class)]
-class Sizes
+class TailleSweat
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

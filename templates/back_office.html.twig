@@ -1,0 +1,12 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Back-office
+{% endblock %}
+
+{% block body %}
+	{% if sizes %}
+		{% for size in sizes %}
+			<p>{{size.size}}</p>
+		{% endfor %}
+	{% endif %}
+{% endblock %}

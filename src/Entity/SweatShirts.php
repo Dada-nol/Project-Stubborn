@@ -24,7 +24,7 @@ class SweatShirts
     /**
      * @var Collection<int, Stock>
      */
-    #[ORM\OneToMany(targetEntity: Stock::class, mappedBy: 'SweatShirt_id')]
+    #[ORM\OneToMany(targetEntity: Stock::class, mappedBy: 'SweatShirt')]
     private Collection $stocks;
 
     public function __construct()
