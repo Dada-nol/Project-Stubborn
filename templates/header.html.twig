@@ -1,0 +1,40 @@
+{% extends "base.html.twig" %}
+{% block body %}
+	<header>
+		<nav>
+			<div class="nav-logo">
+				<img src="build/img/Logo.7812ab4b.png">
+				<p>Slogan</p>
+			</div>
+			{% if is_granted('ROLE_USER') %}
+				<ul class="nav-list">
+					<a href="{{path("app_home")}}">
+						<li class="nav-link">Accueil</li>
+					</a>
+					<a href="{{path("app_all_product")}}">
+						<li class="nav-link">Boutique</li>
+					</a>
+
+					<li class="nav-link">Panier</li>
+
+					<a href="{{path("app_logout")}}">
+						<li class="nav-link">Se déconnecter</li>
+					</a>
+				</ul>
+			{% else %}
+				<ul class="nav-list">
+					<a href="{{path("app_home")}}">
+						<li class="nav-link">Accueil</li>
+					</a>
+					<a href="{{path("app_register")}}">
+						<li class="nav-link">S'inscrire</li>
+					</a>
+					<a href="{{path("app_login")}}">
+						<li class="nav-link">Se connecter</li>
+					</a>
+				</ul>
+
+			{% endif %}
+		</nav>
+	</header>
+{% endblock %}
