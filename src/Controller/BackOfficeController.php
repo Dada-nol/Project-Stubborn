@@ -23,6 +23,8 @@ class BackOfficeController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $promoted = $form->get('isPromoted')->getData();
+            $product->setPromoted($promoted);
             $save = $manager->getManager();
             $save->persist($product);
             $save->flush();
@@ -47,6 +49,8 @@ class BackOfficeController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $promoted = $form->get('isPromoted')->getData();
+            $product->setPromoted($promoted);
             $entityManager->flush();
 
             return $this->redirectToRoute('app_one_product', ['id' => $product->getId()]);

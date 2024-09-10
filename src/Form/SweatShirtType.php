@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\SweatShirts;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -22,6 +23,9 @@ class SweatShirtType extends AbstractType
                 'attr' => [
                     'step' => 0.01,  // Autorise les incréments de 0.01
                 ],
+            ])
+            ->add('isPromoted', CheckboxType::class, [
+                'mapped' => false,
             ])
         ;
     }
