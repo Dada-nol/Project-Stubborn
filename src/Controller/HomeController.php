@@ -15,10 +15,8 @@ class HomeController extends AbstractController
     public function index(ManagerRegistry $manager): Response
     {
         $products = $manager->getRepository(SweatShirts::class)->findAll();
-        $users = $manager->getRepository(User::class)->findAll();
 
         return $this->render('home/index.html.twig', [
-            'users' => $users,
             'products' => $products
         ]);
     }

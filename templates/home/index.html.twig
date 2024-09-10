@@ -7,7 +7,17 @@
 	{% include "header.html.twig" %}
 
 	<main>
-		<h1>PAGE D'ACCUEIL</h1>
+		{% for product in products %}
+			{% if product.isPromoted == true %}
+				<div class="card">
+					<div class="card-body">
+						<p>{{product.name}}</p>
+					</div>
+				</div>
+
+			{% endif %}
+
+		{% endfor %}
 	</main>
 
 	{% include "footer.html.twig" %}

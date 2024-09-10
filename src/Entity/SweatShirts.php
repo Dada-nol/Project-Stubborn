@@ -24,6 +24,9 @@ class SweatShirts
     #[ORM\Column]
     private bool $isPromoted = false;
 
+    #[ORM\Column(type: 'string')]
+    private string $imageFilename;
+
     /**
      * @var Collection<int, Stock>
      */
@@ -73,6 +76,18 @@ class SweatShirts
     public function setPromoted(bool $isPromoted): static
     {
         $this->isPromoted = $isPromoted;
+
+        return $this;
+    }
+
+    public function getImageFilename(): string
+    {
+        return $this->imageFilename;
+    }
+
+    public function setImageFilename(string $imageFilename): self
+    {
+        $this->imageFilename = $imageFilename;
 
         return $this;
     }
