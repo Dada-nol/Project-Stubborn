@@ -2,10 +2,12 @@
 {% block body %}
 	<header>
 		<nav>
-			<div class="nav-logo navbar">
+			<div class="navbar">
+				<a class="navbar-brand" href="{{path("app_home")}}">
+					<img src="{{asset("build/img/Logo.7812ab4b.png")}}" alt="Logo" width="50" height="45" class="d-inline-block align-text-bottom">
+					Don't compromise on your look
+				</a>
 
-				<img src="{{asset("build/img/Logo.7812ab4b.png")}}">
-				<p>Slogan</p>
 
 			</div>
 			{% if is_granted('ROLE_USER') %}
