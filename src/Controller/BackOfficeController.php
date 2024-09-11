@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Service\FileUploader;
 use App\Entity\SweatShirts;
 use App\Form\DeleteSweatType;
 use App\Form\SweatShirtType;
@@ -16,13 +17,23 @@ use Symfony\Component\Routing\Attribute\Route;
 class BackOfficeController extends AbstractController
 {
     #[Route('/add', name: 'add')]
-    public function add(Request $request, ManagerRegistry $manager): Response
+    public function add(Request $request, ManagerRegistry $manager, FileUploader $fileUploader): Response
     {
         $product = new SweatShirts();
         $form = $this->createForm(SweatShirtType::class, $product);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $promoted = $form->get('isPromoted')->getData();
+            $product->setPromoted($promoted);
+
+            $imageFile = $form->get('image')->getData();
+            if ($imageFile) {
+                $imageFileName = $fileUploader->upload($imageFile);
+                $product->setImageFilename($imageFileName);
+            }
+
             $save = $manager->getManager();
             $save->persist($product);
             $save->flush();
@@ -34,7 +45,7 @@ class BackOfficeController extends AbstractController
     }
 
     #[Route('/update/{id}', name: 'update')]
-    public function update(Request $request, EntityManagerInterface $entityManager, int $id): Response
+    public function update(Request $request, EntityManagerInterface $entityManager, int $id, FileUploader $fileUploader): Response
     {
         $product = $entityManager->getRepository(SweatShirts::class)->find($id);
         $form = $this->createForm(SweatShirtType::class, $product);
@@ -47,6 +58,16 @@ class BackOfficeController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $promoted = $form->get('isPromoted')->getData();
+            $product->setPromoted($promoted);
+
+            $imageFile = $form->get('image')->getData();
+            if ($imageFile) {
+                $imageFileName = $fileUploader->upload($imageFile);
+                $product->setImageFilename($imageFileName);
+            }
+
             $entityManager->flush();
 
             return $this->redirectToRoute('app_one_product', ['id' => $product->getId()]);
