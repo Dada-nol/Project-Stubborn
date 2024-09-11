@@ -7,25 +7,39 @@
 	{% for flash_error in app.flashes('verify_email_error') %}
 		<div class="alert alert-danger" role="alert">{{ flash_error }}</div>
 	{% endfor %}
+	<div class="container">
+		<div class="row">
+			<div class="col">
+				<h1>Register</h1>
 
-	<h1>Register</h1>
+				{{ form_errors(registrationForm) }}
+				{{ form_start(registrationForm) }}
+				<div class="mb-3">
+					<label class="form-label">Email address</label>
+					{{ form_row(registrationForm.name) }}
+				</div>
+				<div class="mb-3">
+					{{ form_row(registrationForm.email) }}
+				</div>
+				<div class="mb-3">
+					{{ form_row(registrationForm.plainPassword.first)}}
+					<div class="mb-3">
+						{{ form_row(registrationForm.plainPassword.second) }}
+					</div>
+					<div class="mb-3">
+						{{ form_row(registrationForm.roles) }}
+					</div>
+					{{ form_row(registrationForm.agreeTerms) }}
 
-	{{ form_errors(registrationForm) }}
-
-	{{ form_start(registrationForm) }}
-	{{ form_row(registrationForm.name) }}
-	{{ form_row(registrationForm.email) }}
-	{{ form_row(registrationForm.plainPassword.first)}}
-	{{ form_row(registrationForm.plainPassword.second) }}
-	{{ form_row(registrationForm.roles) }}
-	{{ form_row(registrationForm.agreeTerms) }}
-
-	<button type="submit" class="btn">Register</button>
-	{{ form_end(registrationForm) }}
-	<div>
-		<p>Déjà inscrit ?</p>
-		<button>
-			<a href="{{path('app_login')}}">Connectez vous</a>
-		</button>
-	</div>
-{% endblock %}
+					<button type="submit" class="btn">Register</button>
+					{{ form_end(registrationForm) }}
+					<div>
+						<p>Déjà inscrit ?</p>
+						<button>
+							<a href="{{path('app_login')}}">Connectez vous</a>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	{% endblock %}
