@@ -20,19 +20,21 @@ class SweatShirtType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                'label' => 'Name',
+                'label' => false,
             ])
             ->add('price', NumberType::class, [
                 'scale' => 2,  // Permet deux chiffres après la virgule
                 'attr' => [
                     'step' => 0.01,  // Autorise les incréments de 0.01
                 ],
+                'label' => false,
             ])
             ->add('isPromoted', CheckboxType::class, [
+                'label' => 'Cocher pour promouvoir ',
                 'required' => false,
             ])
             ->add('image', FileType::class, [
-                'label' => 'Image',
+                'label' => false,
                 'mapped' => false,
                 'required' => false,
                 'constraints' => [

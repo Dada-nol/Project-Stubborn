@@ -6,32 +6,114 @@
 {% block body %}
 
 	{% if is_granted('ROLE_ADMIN') %}
-		{{form_errors(productForm)}}
+		<div class="container border border-black w-75">
+			{{form_errors(addForm)}}
 
-		{{form_start(productForm)}}
+			{{form_start(addForm)}}
 
-		{{form_row(productForm.name)}}
-		{{form_row(productForm.price)}}
-		{{form_row(productForm.isPromoted)}}
-		{{form_row(productForm.image)}}
 
-		<div class="stock-inputs">
-			{% for stockForm in productForm.stocks %}
-				<div>
-					{{ form_row(stockForm.size, {'attr': {'class': 'custom-select-class'}})}}
-					{{ form_row(stockForm.quantity, {'attr': {'class': 'custom-numbertype-class'}}) }}
+			<div class="d-flex flex-row m-3">
+
+				<div class="mx-1">
+					<p class="m-0">Name</p>
+					{{form_row(addForm.name)}}
 				</div>
-			{% endfor %}
+
+				<div class="mx-1">
+					<p class="m-0">Prix</p>
+					{{form_row(addForm.price)}}
+				</div>
+
+				{% for stockForm in addForm.stocks %}
+					<div class="mx-1">
+						{{ form_row(stockForm.size, {'attr': {'class': 'custom-size'}})}}
+						{{ form_row(stockForm.quantity, {'attr': {'class': 'custom-quantity'}}) }}
+					</div>
+				{% endfor %}
+
+			</div>
+
+			<div class="d-flex flex-row m-3">
+				{{form_row(addForm.image, {'attr': {'class': 'mx-1'}})}}
+				{{form_row(addForm.isPromoted, {'attr': {'class': 'mx-1'}})}}
+
+				<button type="submit" class="btn btn-light border border-black mx-3">Ajouter</button>
+			</div>
+
+			{{form_end(addForm)}}
+
 		</div>
 
-		<button type="submit" class="btn">Register</button>
 
-		{{form_end(productForm)}}
+		{% for product in products %}
+			<div class="container border border-black w-75">
+				{{form(updateForms)}}
+
+					{{form_start(updateForms[product.id])}}
 
 
-	{% else %}
-		<h3>Vous n'avez pas les autorisations nécessaire pour accéder à cette page</h3>
-		<a href="{{path('app_home')}}">Retourner à l'accueil</a>
-	{% endif %}
+					<div class="d-flex flex-row m-3">
 
-{% endblock %}
+						<div class="mx-1">
+							<p class="m-0">Name</p>
+							{{form_row(updateForms[product.id].name)}}
+						</div>
+
+						<div class="mx-1">
+							<p class="m-0">Prix</p>
+							{{form_row(updateForms[product.id].price)}}
+						</div>
+
+						{% for stockForm in updateForms[product.id].stocks %}
+							<div class="mx-1">
+								{{ form_row(stockForm.size, {'attr': {'class': 'custom-size'}})}}
+								{{ form_row(stockForm.quantity, {'attr': {'class': 'custom-quantity'}}) }}
+							</div>
+						{% endfor %}
+
+					</div>
+
+					<div class="d-flex flex-row m-3">
+						{{form_row(updateForms[product.id].image, {'attr': {'class': 'mx-1'}})}}
+						{{form_row(updateForms[product.id].isPromoted, {'attr': {'class': 'mx-1'}})}}
+
+						<button type="submit" class="btn btn-light border border-black mx-3">Ajouter</button>
+					</div>
+
+					{{form_end(updateForms[product.id])}}
+
+				</div>
+
+				<div>{{form_errors(deleteForms[product.id])}}
+
+					{{form(deleteForms[product.id])}}
+					</div>
+				{% endfor %}
+			{% else %}
+				<h3>Vous n'avez pas les autorisations nécessaire pour accéder à cette page</h3>
+				<a href="{{path('app_home')}}">Retourner à l'accueil</a>
+			{% endif %}
+
+		{% endblock %}
+
+
+		{# 	<h2>SweatShirts existants</h2>
+				<ul>
+					{% for product in products %}
+						<li>
+							<h3>{{ product.name }}</h3>
+		
+							<h4>Modifier ce SweatShirt</h4>
+							{{ form_start(updateForms[product.id], {'action': path('back_office', {'id': product.id}), 'method': 'POST'}) }}
+							{{ form_widget(updateForms[product.id]) }}
+							<button type="submit">Modifier</button>
+							{{ form_end(updateForms[product.id]) }}
+		
+							<h4>Supprimer ce SweatShirt</h4>
+							{{ form_start(deleteForms[product.id], {'action': path('back_office', {'id': product.id}), 'method': 'POST'}) }}
+							{{ form_widget(deleteForms[product.id]) }}
+							<button type="submit">Supprimer</button>
+							{{ form_end(deleteForms[product.id]) }}
+						</li>
+					{% endfor %}
+				</ul> #}

@@ -15,14 +15,15 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/back_office')]
+
 class BackOfficeController extends AbstractController
 {
-    #[Route('/add', name: 'add')]
-    public function add(Request $request, ManagerRegistry $manager, FileUploader $fileUploader): Response
-    {
-        $product = new SweatShirts();
 
+    #[Route('/back_office', name: "back_office")]
+    public function backOffice(Request $request, ManagerRegistry $manager, FileUploader $fileUploader, EntityManagerInterface $entityManager): Response
+    {
+        // Formulaire pour add
+        $product = new SweatShirts();
         $sizes = $manager->getRepository(TailleSweat::class)->findAll();
 
         foreach ($sizes as $size) {
@@ -31,14 +32,12 @@ class BackOfficeController extends AbstractController
             $product->addStock($stock);
         }
 
-        $form = $this->createForm(SweatShirtType::class, $product);
+        $addForm = $this->createForm(SweatShirtType::class, $product);
 
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
+        $addForm->handleRequest($request);
+        if ($addForm->isSubmitted() && $addForm->isValid()) {
 
-
-
-            $imageFile = $form->get('image')->getData();
+            $imageFile = $addForm->get('image')->getData();
             if ($imageFile) {
                 $imageFileName = $fileUploader->upload($imageFile);
                 $product->setImageFilename($imageFileName);
@@ -51,62 +50,46 @@ class BackOfficeController extends AbstractController
             return $this->redirectToRoute('app_all_product');
         }
 
-        return $this->render('back_office/index.html.twig', ['productForm' => $form->createView()]);
-    }
+        $products = $entityManager->getRepository(SweatShirts::class)->findAll();
 
-    #[Route('/update/{id}', name: 'update')]
-    public function update(Request $request, EntityManagerInterface $entityManager, int $id, FileUploader $fileUploader): Response
-    {
-        $product = $entityManager->getRepository(SweatShirts::class)->find($id);
+        // Formuliare pour update
+        $updateForms = [];
+        $deleteForms = [];
 
-        $form = $this->createForm(SweatShirtType::class, $product);
+        foreach ($products as $sweat) {
 
-        if (!$product) {
-            throw $this->createNotFoundException(
-                'No SweatShirt found for id' . $id
-            );
-        }
-
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
+            $updateForm = $this->createForm(SweatShirtType::class, $sweat);
+            $updateForm->handleRequest($request);
 
 
+            if ($updateForm->isSubmitted() && $updateForm->isValid()) {
+                $imageFile = $updateForm->get('image')->getData();
+                if ($imageFile) {
+                    $imageFileName = $fileUploader->upload($imageFile);
+                    $sweat->setImageFilename($imageFileName);
+                }
 
-            $imageFile = $form->get('image')->getData();
-            if ($imageFile) {
-                $imageFileName = $fileUploader->upload($imageFile);
-                $product->setImageFilename($imageFileName);
+                $entityManager->flush();
+
+                return $this->redirectToRoute('app_home');
             }
 
-            $entityManager->flush();
+            $updateForms[$sweat->getId()] = $updateForm->createView();
 
-            return $this->redirectToRoute('app_one_product', ['id' => $product->getId()]);
+            // Formulaire delete
+            $deleteForm = $this->createForm(DeleteSweatType::class, $sweat);
+            $deleteForm->handleRequest($request);
+
+            if ($deleteForm->isSubmitted() && $deleteForm->isValid()) {
+
+                $entityManager->remove($sweat);
+                $entityManager->flush();
+
+                return $this->redirectToRoute('app_all_product');
+            }
+
+            $deleteForms[$sweat->getId()] = $deleteForm->createView();
         }
-
-        return $this->render('back_office/index.html.twig', ['productForm' => $form->createView(),]);
-    }
-
-    #[Route('/delete/{id}', name: 'delete')]
-    public function delete(Request $request, EntityManagerInterface $entityManager, int $id): Response
-    {
-        $product = $entityManager->getRepository(SweatShirts::class)->find($id);
-        $form = $this->createForm(DeleteSweatType::class, $product);
-
-        if (!$product) {
-            throw $this->createNotFoundException(
-                'No SweatShirt found for id' . $id
-            );
-        }
-
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            $entityManager->remove($product);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('app_all_product');
-        }
-
-        return $this->render('back_office/delete.html.twig', ['deleteSweatShirt' => $form->createView(),]);
+        return $this->render('back_office/index.html.twig', ['addForm' => $addForm->createView(), 'updateForms' => $updateForms, 'deleteForms' => $deleteForms, 'products' => $products]);
     }
 }
