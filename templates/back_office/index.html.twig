@@ -15,6 +15,15 @@
 		{{form_row(productForm.isPromoted)}}
 		{{form_row(productForm.image)}}
 
+		<div class="stock-inputs">
+			{% for stockForm in productForm.stocks %}
+				<div>
+					{{ form_row(stockForm.size, {'attr': {'class': 'custom-select-class'}})}}
+					{{ form_row(stockForm.quantity, {'attr': {'class': 'custom-numbertype-class'}}) }}
+				</div>
+			{% endfor %}
+		</div>
+
 		<button type="submit" class="btn">Register</button>
 
 		{{form_end(productForm)}}

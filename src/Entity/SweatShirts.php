@@ -30,7 +30,7 @@ class SweatShirts
     /**
      * @var Collection<int, Stock>
      */
-    #[ORM\OneToMany(targetEntity: Stock::class, mappedBy: 'SweatShirt')]
+    #[ORM\OneToMany(targetEntity: Stock::class, mappedBy: 'SweatShirt', cascade: ['persist', 'remove'])]
     private Collection $stocks;
 
     public function __construct()
@@ -68,12 +68,12 @@ class SweatShirts
         return $this;
     }
 
-    public function isPromoted(): bool
+    public function getIsPromoted(): bool
     {
         return $this->isPromoted;
     }
 
-    public function setPromoted(bool $isPromoted): static
+    public function setIsPromoted(bool $isPromoted): static
     {
         $this->isPromoted = $isPromoted;
 
@@ -104,7 +104,7 @@ class SweatShirts
     {
         if (!$this->stocks->contains($stock)) {
             $this->stocks->add($stock);
-            $stock->setSweatShirtId($this);
+            $stock->setSweatShirt($this);
         }
 
         return $this;
@@ -114,8 +114,8 @@ class SweatShirts
     {
         if ($this->stocks->removeElement($stock)) {
             // set the owning side to null (unless already changed)
-            if ($stock->getSweatShirtId() === $this) {
-                $stock->setSweatShirtId(null);
+            if ($stock->getSweatShirt() === $this) {
+                $stock->setSweatShirt(null);
             }
         }
 

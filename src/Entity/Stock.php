@@ -14,7 +14,7 @@ class Stock
     private ?int $id = null;
 
     #[ORM\Column(nullable: true)]
-    private ?int $quantité = null;
+    private ?int $quantity = null;
 
     #[ORM\ManyToOne(inversedBy: 'stocks')]
     #[ORM\JoinColumn(nullable: false)]
@@ -22,45 +22,45 @@ class Stock
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    private ?TailleSweat $Size = null;
+    private ?TailleSweat $size = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getQuantité(): ?int
+    public function getquantity(): ?int
     {
-        return $this->quantité;
+        return $this->quantity;
     }
 
-    public function setQuantité(?int $quantité): static
+    public function setquantity(?int $quantity): static
     {
-        $this->quantité = $quantité;
+        $this->quantity = $quantity;
 
         return $this;
     }
 
-    public function getSweatShirtId(): ?SweatShirts
+    public function getSweatShirt(): ?SweatShirts
     {
         return $this->SweatShirt;
     }
 
-    public function setSweatShirtId(?SweatShirts $SweatShirt): static
+    public function setSweatShirt(?SweatShirts $SweatShirt): static
     {
         $this->SweatShirt = $SweatShirt;
 
         return $this;
     }
 
-    public function getSizeId(): ?TailleSweat
+    public function getSize(): ?TailleSweat
     {
-        return $this->Size;
+        return $this->size;
     }
 
-    public function setSizeId(?TailleSweat $Size): static
+    public function setSize(?TailleSweat $size): static
     {
-        $this->Size = $Size;
+        $this->size = $size;
 
         return $this;
     }

@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Stock;
 use App\Service\FileUploader;
 use App\Entity\SweatShirts;
+use App\Entity\TailleSweat;
 use App\Form\DeleteSweatType;
 use App\Form\SweatShirtType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -20,13 +22,21 @@ class BackOfficeController extends AbstractController
     public function add(Request $request, ManagerRegistry $manager, FileUploader $fileUploader): Response
     {
         $product = new SweatShirts();
+
+        $sizes = $manager->getRepository(TailleSweat::class)->findAll();
+
+        foreach ($sizes as $size) {
+            $stock = new Stock();
+            $stock->setSize($size);
+            $product->addStock($stock);
+        }
+
         $form = $this->createForm(SweatShirtType::class, $product);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $promoted = $form->get('isPromoted')->getData();
-            $product->setPromoted($promoted);
+
 
             $imageFile = $form->get('image')->getData();
             if ($imageFile) {
@@ -48,6 +58,7 @@ class BackOfficeController extends AbstractController
     public function update(Request $request, EntityManagerInterface $entityManager, int $id, FileUploader $fileUploader): Response
     {
         $product = $entityManager->getRepository(SweatShirts::class)->find($id);
+
         $form = $this->createForm(SweatShirtType::class, $product);
 
         if (!$product) {
@@ -59,8 +70,7 @@ class BackOfficeController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $promoted = $form->get('isPromoted')->getData();
-            $product->setPromoted($promoted);
+
 
             $imageFile = $form->get('image')->getData();
             if ($imageFile) {

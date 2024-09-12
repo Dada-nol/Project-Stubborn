@@ -46,3 +46,13 @@ footer {
   width: 100px;
   height: 50px;
 }
+
+.custom-select-class {
+  background-color: transparent;
+  color: #000;
+  all: unset;
+}
+
+.custom-numbertype-class {
+  width: 50px;
+}
