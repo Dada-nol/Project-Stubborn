@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Attribute\Route;
 class BackOfficeController extends AbstractController
 {
 
-    #[Route('/back_office', name: "back_office")]
+    #[Route('/admin', name: "back_office")]
     public function backOffice(Request $request, ManagerRegistry $manager, FileUploader $fileUploader, EntityManagerInterface $entityManager): Response
     {
         // Formulaire pour add
@@ -47,7 +47,7 @@ class BackOfficeController extends AbstractController
             $save->persist($product);
             $save->flush();
 
-            return $this->redirectToRoute('app_all_product');
+            return $this->redirectToRoute('back_office');
         }
 
         $sweats = $entityManager->getRepository(SweatShirts::class)->findAll();

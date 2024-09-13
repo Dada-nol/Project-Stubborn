@@ -61,7 +61,7 @@ class SweatShirtController extends AbstractController
 
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_home');
+            return $this->redirectToRoute('back_office');
         }
     }
 
@@ -84,7 +84,7 @@ class SweatShirtController extends AbstractController
             $entityManager->remove($product);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_all_product');
+            return $this->redirectToRoute('back_office');
         }
     }
 }

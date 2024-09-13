@@ -9,23 +9,31 @@
 		{% import 'form_macros.html.twig' as formMacros %}
 
 		<div>
-			<!-- Formulaire d'ajout -->
-			{{ formMacros.renderForm(addForm, 'Ajouter') }}
+			<div class="container border border-black w-50 mb-5 mt-5">
+				{{ formMacros.renderForm(addForm, 'Ajouter') }}
+			</div>
 
-			<!-- Formulaires de mise à jour -->
-			{% for product in products %}
-				{{ formMacros.renderForm(updateForms[product.id], 'Mettre à jour') }}
-				<div>
-					{{ form_start(deleteForms[product.id]) }}
-
-					{{form_end(deleteForms[product.id])}}
-				</div>
-			{% endfor %}
 		</div>
 
-	{% else %}
-		<h3>Vous n'avez pas les autorisations nécessaire pour accéder à cette page</h3>
-		<a href="{{path('app_home')}}">Retourner à l'accueil</a>
-	{% endif %}
+		{% for product in products %}
+			<div class="container border border-black w-75 mb-5">
+				<div class="row">
 
-{% endblock %}
+					<div class="col-3 border ">
+						<img src="{{asset('build/img/' ~ product.name ~ '.jpeg')}}">
+					</div>
+					<div class="col-9 d-flex justify-content-center align-items-center">
+						{{ formMacros.renderForm(updateForms[product.id], 'Mettre à jour') }}
+						<div>
+							{{ form_start(deleteForms[product.id]) }}
+
+							{{form_end(deleteForms[product.id])}}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	{% endfor %}
+</div>{% else %}
+<h3>Vous n'avez pas les autorisations nécessaire pour accéder à cette page</h3>
+<a href="{{path('app_home')}}">Retourner à l'accueil</a>{% endif %}{% endblock %}
