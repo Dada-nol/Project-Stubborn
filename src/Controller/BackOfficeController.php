@@ -50,46 +50,31 @@ class BackOfficeController extends AbstractController
             return $this->redirectToRoute('app_all_product');
         }
 
-        $products = $entityManager->getRepository(SweatShirts::class)->findAll();
+        $sweats = $entityManager->getRepository(SweatShirts::class)->findAll();
 
         // Formuliare pour update
         $updateForms = [];
         $deleteForms = [];
 
-        foreach ($products as $sweat) {
+        foreach ($sweats as $sweat) {
 
-            $updateForm = $this->createForm(SweatShirtType::class, $sweat);
-            $updateForm->handleRequest($request);
+            $updateForm = $this->createForm(SweatShirtType::class, $sweat, [
+                'action' => $this->generateUrl('update', ['id' => $sweat->getId()]),
 
+            ]);
 
-            if ($updateForm->isSubmitted() && $updateForm->isValid()) {
-                $imageFile = $updateForm->get('image')->getData();
-                if ($imageFile) {
-                    $imageFileName = $fileUploader->upload($imageFile);
-                    $sweat->setImageFilename($imageFileName);
-                }
-
-                $entityManager->flush();
-
-                return $this->redirectToRoute('app_home');
-            }
 
             $updateForms[$sweat->getId()] = $updateForm->createView();
 
-            // Formulaire delete
-            $deleteForm = $this->createForm(DeleteSweatType::class, $sweat);
-            $deleteForm->handleRequest($request);
+            // Formulaire de suppression avec ID dans l'action
+            $deleteForm = $this->createForm(DeleteSweatType::class, $sweat, [
+                'action' => $this->generateUrl('delete', ['id' => $sweat->getId()]),
 
-            if ($deleteForm->isSubmitted() && $deleteForm->isValid()) {
+            ]);
 
-                $entityManager->remove($sweat);
-                $entityManager->flush();
-
-                return $this->redirectToRoute('app_all_product');
-            }
 
             $deleteForms[$sweat->getId()] = $deleteForm->createView();
         }
-        return $this->render('back_office/index.html.twig', ['addForm' => $addForm->createView(), 'updateForms' => $updateForms, 'deleteForms' => $deleteForms, 'products' => $products]);
+        return $this->render('back_office/index.html.twig', ['addForm' => $addForm->createView(), 'updateForms' => $updateForms, 'deleteForms' => $deleteForms, 'products' => $sweats]);
     }
 }
