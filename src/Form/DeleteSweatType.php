@@ -15,7 +15,7 @@ class DeleteSweatType extends AbstractType
         $builder
             ->add('submit', SubmitType::class, [
                 'label' => 'Delete',
-                'attr' => ['class' => 'btn btn-danger']
+                'attr' => ['class' => 'btn btn-light border border-black']
             ]);
     }
 

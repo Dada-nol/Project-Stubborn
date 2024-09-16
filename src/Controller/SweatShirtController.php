@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\SweatShirts;
 use App\Form\DeleteSweatType;
+use App\Form\ProductFilterType;
 use App\Form\SweatShirtType;
+use App\Repository\SweatShirtsRepository;
 use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
@@ -16,12 +18,23 @@ use Symfony\Component\Routing\Attribute\Route;
 class SweatShirtController extends AbstractController
 {
     #[Route('/product', name: 'app_all_product')]
-    public function AllProduct(ManagerRegistry $manager): Response
+    public function AllProduct(Request $request, SweatShirtsRepository $repository): Response
     {
-        $products = $manager->getRepository(SweatShirts::class)->findAll();
 
+
+        $form = $this->createForm(ProductFilterType::class);
+        $form->handleRequest($request);
+
+        $priceRange = $form->get('priceRanges')->getData();
+
+        if ($form->isSubmitted() && $form->isValid() && $priceRange) {
+            $products = $repository->findByPriceRanges($priceRange);
+        } else {
+            $products = $repository->findAll();
+        }
 
         return $this->render('sweat_shirt/all_product.html.twig', [
+            'form' => $form->createView(),
             'products' => $products,
         ]);
     }
