@@ -21,9 +21,9 @@ class StockType extends AbstractType
                 'class' => TailleSweat::class,
                 'label' => false,
                 'choice_label' => 'size',
-                'disabled' => true, // La taille est fixe, pas modifiable
+                'disabled' => true,
             ])
-            // Champ pour entrer le stock correspondant
+
             ->add('quantity', NumberType::class, [
                 'label' => false,
             ]);;

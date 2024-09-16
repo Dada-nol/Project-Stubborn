@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Stock;
 use App\Entity\SweatShirts;
+use App\Entity\TailleSweat;
 use App\Form\DeleteSweatType;
 use App\Form\ProductFilterType;
 use App\Form\SweatShirtType;
@@ -43,6 +45,9 @@ class SweatShirtController extends AbstractController
     public function OneProduct(ManagerRegistry $manager, int $id): Response
     {
         $product = $manager->getRepository(SweatShirts::class)->find($id);
+        $sizes = $manager->getRepository(TailleSweat::class)->findAll();
+
+
 
         if (!$product) {
             throw $this->createNotFoundException('Produit non trouvé');
@@ -50,6 +55,7 @@ class SweatShirtController extends AbstractController
 
         return $this->render('sweat_shirt/one_product.html.twig', [
             'product' => $product,
+            'sizes' => $sizes,
         ]);
     }
 
