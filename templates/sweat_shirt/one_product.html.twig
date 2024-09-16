@@ -18,7 +18,7 @@
 					<p class="card-text">{{ product.price }}</p>
 				</div>
 			</a>
-			<form action="{{ path('add_to_cart', {'id': product.id}) }}" method="POST">
+			<form action="{{ path('cart_add', {'id': product.id}) }}" method="POST">
 				<label for="size">Choisir une taille :</label>
 				<select name="size" id="size">
 					{% for stock in product.stocks %}

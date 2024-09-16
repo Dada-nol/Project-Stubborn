@@ -7,6 +7,7 @@ use App\Entity\CartItem;
 use App\Entity\Stock;
 use App\Entity\SweatShirts;
 use App\Form\CartType;
+use App\Service\CartService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -16,57 +17,31 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class CartController extends AbstractController
 {
-    #[Route('/cart', name: 'app_cart')]
-    public function cart(EntityManagerInterface $entityManager, Security $security): Response
+
+    private $cartService;
+
+    public function __construct(CartService $cartService)
+    {
+        $this->cartService = $cartService;
+    }
+
+    #[Route('/cart', name: 'cart')]
+    public function showCart(EntityManagerInterface $entityManager, Security $security): Response
     {
         $user = $security->getUser();
         $cart = $entityManager->getRepository(Cart::class)->findOneBy(['user' => $user]);
-
-        if (!$cart || $cart->getItems()->isEmpty()) {
-            return $this->render('cart/empty.html.twig');
-        }
-
-
         return $this->render('cart/index.html.twig', ['items' => $cart->getItems(), 'cart' => $cart]);
     }
 
-    #[Route('/product/{id}/add', name: 'add_to_cart')]
-
-    public function addToCart(EntityManagerInterface $entityManager, Security $security, int $id, Request $request): Response
+    #[Route('/cart/add/{id}', name: 'cart_add')]
+    public function addToCart(EntityManagerInterface $entityManager, int $id, SweatShirts $sweatshirt, Request $request): Response
     {
-        $user = $security->getUser();
-        $cart = $entityManager->getRepository(Cart::class)->findOneBy(['user' => $user]);
-
-
-        if (!$cart) {
-
-            $cart = new Cart($user);
-            $entityManager->persist($cart);
-        }
-
         $sweatshirt = $entityManager->getRepository(SweatShirts::class)->find($id);
         $stockId = $request->request->get('size');
         $stock = $entityManager->getRepository(Stock::class)->find($stockId);
-        $cartItem = $entityManager->getRepository(CartItem::class)->findOneBy([
-            'cart' => $cart,
-            'sweatshirt' => $sweatshirt
-        ]);
 
-        if ($cartItem) {
+        $this->cartService->addToCart($sweatshirt, $stock);
 
-            $cartItem->setQuanity($cartItem->getQuantity() + 1);
-        } else {
-
-            $cartItem = new CartItem();
-            $cartItem->setSweatshirt($sweatshirt);
-            $cartItem->setStock($stock);
-            $cartItem->setQuantity(1);
-            $cartItem->setCart($cart);
-            $entityManager->persist($cartItem);
-        }
-
-        $entityManager->flush();
-
-        return $this->redirectToRoute('app_cart');
+        return $this->redirectToRoute('cart');
     }
 }
