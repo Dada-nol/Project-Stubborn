@@ -4,23 +4,42 @@
 {% endblock %}
 
 {% block body %}
-{% include "header.html.twig" %}
-{% if product %}
+	{% include "header.html.twig" %}
+	{% if product %}
 
-	<div class="col-md-6 col-lg-4 d-flex justify-content-center align-items-center">
+		<div class="col-md-6 col-lg-4 d-flex justify-content-center align-items-center">
 
-		<a class="card" href="{{ path('app_one_product', {'id': product.id}) }}">
-			<div>
-				<img src="{{ asset('uploads/img/' ~ product.imageFilename) }}" class="card-img-top img-fluid" alt="Représentation graphique de ce sweat-shirt">
-			</div>
-			<div class="card-body">
-				<p class="card-title">{{ product.name }}</p>
-				<p class="card-text">{{ product.price }}</p>
-			</div>
-		</a>
-		<form action="{{ path('add_to_cart', { 'id': product.id }) }}" method="post">
-			<button type="submit" class="btn btn-primary">Ajouter au panier</button>
-		</p>
-	</form>
+			<a class="card" href="{{ path('app_one_product', {'id': product.id}) }}">
+				<div>
+					<img src="{{ asset('uploads/img/' ~ product.imageFilename) }}" class="card-img-top img-fluid" alt="Représentation graphique de ce sweat-shirt">
+				</div>
+				<div class="card-body">
+					<p class="card-title">{{ product.name }}</p>
+					<p class="card-text">{{ product.price }}</p>
+				</div>
+			</a>
+			<form action="{{ path('add_to_cart', {'id': product.id}) }}" method="POST">
+				<label for="size">Choisir une taille :</label>
+				<select name="size" id="size">
+					{% for stock in product.stocks %}
+						{% if stock.quantity > 0 %}
+							<option value="{{ stock.id }}">{{ stock.size.size }}
+								({{ stock.quantity }}
+								disponibles)</option>
 
-</div>{% endif %}{% include "footer.html.twig" %}{% endblock %}
+						{% else %}
+
+							<option value="{{ stock.id }}">{{ stock.size.size }}
+								(Produit indisponible)</option>
+
+						{% endif %}
+					{% endfor %}
+				</select>
+				<button type="submit">Ajouter au panier</button>
+			</form>
+
+
+		</div>
+	{% endif %}
+	{% include "footer.html.twig" %}
+{% endblock %}

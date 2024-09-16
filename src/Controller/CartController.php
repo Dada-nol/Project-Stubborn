@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Cart;
 use App\Entity\CartItem;
+use App\Entity\Stock;
 use App\Entity\SweatShirts;
 use App\Form\CartType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -31,7 +32,7 @@ class CartController extends AbstractController
 
     #[Route('/product/{id}/add', name: 'add_to_cart')]
 
-    public function addToCart(EntityManagerInterface $entityManager, Security $security, int $id): Response
+    public function addToCart(EntityManagerInterface $entityManager, Security $security, int $id, Request $request): Response
     {
         $user = $security->getUser();
         $cart = $entityManager->getRepository(Cart::class)->findOneBy(['user' => $user]);
@@ -44,7 +45,8 @@ class CartController extends AbstractController
         }
 
         $sweatshirt = $entityManager->getRepository(SweatShirts::class)->find($id);
-
+        $stockId = $request->request->get('size');
+        $stock = $entityManager->getRepository(Stock::class)->find($stockId);
         $cartItem = $entityManager->getRepository(CartItem::class)->findOneBy([
             'cart' => $cart,
             'sweatshirt' => $sweatshirt
@@ -57,6 +59,7 @@ class CartController extends AbstractController
 
             $cartItem = new CartItem();
             $cartItem->setSweatshirt($sweatshirt);
+            $cartItem->setStock($stock);
             $cartItem->setQuantity(1);
             $cartItem->setCart($cart);
             $entityManager->persist($cartItem);
