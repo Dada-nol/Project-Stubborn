@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\SweatShirts;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -19,20 +20,21 @@ class SweatShirtType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                'label' => 'Name',
+                'label' => false,
             ])
             ->add('price', NumberType::class, [
                 'scale' => 2,  // Permet deux chiffres après la virgule
                 'attr' => [
                     'step' => 0.01,  // Autorise les incréments de 0.01
                 ],
+                'label' => false,
             ])
             ->add('isPromoted', CheckboxType::class, [
-                'mapped' => false,
+                'label' => 'Cocher pour promouvoir ',
                 'required' => false,
             ])
             ->add('image', FileType::class, [
-                'label' => 'Image',
+                'label' => false,
                 'mapped' => false,
                 'required' => false,
                 'constraints' => [
@@ -47,7 +49,13 @@ class SweatShirtType extends AbstractType
                     ]),
                 ],
             ])
-        ;
+            ->add('stocks', CollectionType::class, [
+                'entry_type' => StockType::class,
+                'entry_options' => ['label' => false],
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

@@ -46,3 +46,13 @@ footer {
   width: 100px;
   height: 50px;
 }
+
+.custom-size {
+  background-color: transparent;
+  color: #000;
+  all: unset;
+}
+
+.custom-quantity {
+  width: 50px;
+}

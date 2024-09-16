@@ -7,6 +7,10 @@
 	{% include "header.html.twig" %}
 	<div class="container mt-5 mb-5">
 		<div class="row d-flex justify-content-center">
+
+			{{ form_start(form) }}
+			{{ form_row(form.priceRanges) }}
+			{{ form_end(form) }}
 			{% if products %}
 				{% for product in products %}
 
