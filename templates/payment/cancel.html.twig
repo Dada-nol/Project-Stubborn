@@ -4,7 +4,10 @@
 {% endblock %}
 
 {% block body %}
-	<div class="example-wrapper">
-		<h1>Votre commande a été annulée !!! ✅</h1>
+	<div>
+		<h1>Votre commande a été annulée</h1>
+		<a href="{{path('app_home')}}">
+			<button>Retour à l'accueil</button>
+		</a>
 	</div>
 {% endblock %}

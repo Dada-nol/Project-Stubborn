@@ -2,9 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Cart;
+use Doctrine\ORM\EntityManagerInterface;
 use Stripe\Checkout\Session;
 use Stripe\Stripe;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -12,9 +15,21 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class PaymentController extends AbstractController
 {
     #[Route('/checkout', name: 'checkout')]
-    public function checkout(): Response
+    public function checkout(EntityManagerInterface $entityManager, Security $security): Response
     {
-        Stripe::setApiKey('sk_test_51PzlqFA8JVhfe8ThMyYDJemgtdjSTIj5378UAy55ksSPOgZkCT7DrXil5TTqcjfSzW3EC8paDZpjJADXncN9bcsw001TANttsi'); // Remplace par ta clé secrète
+
+        $user = $security->getUser();
+        $cart = $entityManager->getRepository(Cart::class)->findOneBy(['user' => $user]);
+
+        if ($user instanceof \App\Entity\User) {
+
+            $userName = $user->getName();
+        } else {
+
+            $userName = 'Utilisateur inconnu';
+        }
+
+        Stripe::setApiKey('sk_test_51PzlqFA8JVhfe8ThMyYDJemgtdjSTIj5378UAy55ksSPOgZkCT7DrXil5TTqcjfSzW3EC8paDZpjJADXncN9bcsw001TANttsi');
 
         $checkout_session = Session::create([
             'payment_method_types' => ['card'],
@@ -22,9 +37,9 @@ class PaymentController extends AbstractController
                 'price_data' => [
                     'currency' => 'eur',
                     'product_data' => [
-                        'name' => 'Product Name',
+                        'name' => 'Panier de' . ' ' . $userName,
                     ],
-                    'unit_amount' => 2000, // Prix en centimes (20,00 €)
+                    'unit_amount' => $cart->getTotal() * 100,
                 ],
                 'quantity' => 1,
             ]],
@@ -37,8 +52,27 @@ class PaymentController extends AbstractController
     }
 
     #[Route('/payment/success', name: 'payment_success')]
-    public function paymentSuccess(): Response
+    public function paymentSuccess(Security $security, EntityManagerInterface $entityManager): Response
     {
+        $user = $security->getUser();
+        $cart = $entityManager->getRepository(Cart::class)->findOneBy(['user' => $user]);
+        $cartItems = $cart->getItems();
+
+        foreach ($cartItems as $item) {
+            $stock = $item->getStock();
+            $quantityPurchased = $item->getQuantity();
+
+            if ($stock) {
+
+                $stock->setQuantity($stock->getQuantity() - $quantityPurchased);
+                $entityManager->persist($stock);
+            }
+            $entityManager->remove($item);
+        }
+
+
+        $entityManager->flush();
+
         return $this->render('payment/success.html.twig');
     }
 

@@ -12,24 +12,24 @@ class CartService
 {
   private $entityManager;
   private $user;
+  private $sweatShirt;
 
-  public function __construct(EntityManagerInterface $entityManager, Security $security)
+  public function __construct(EntityManagerInterface $entityManager, Security $security, SweatShirts $sweatShirt)
   {
     $this->entityManager = $entityManager;
     $this->user = $security->getUser();
+    $this->sweatShirt = $sweatShirt;
   }
 
   // Récupérer les articles du panier
-  public function getCartItems(SweatShirts $sweatShirt)
+  public function getCartItems()
   {
-
     $cart = $this->entityManager->getRepository(Cart::class)->findOneBy(['user' => $this->user]);
-
 
     return $this->entityManager->getRepository(CartItem::class)
       ->findBy([
         'cart' => $cart,
-        'sweatshirt' => $sweatShirt
+        'sweatshirt' => $this->sweatShirt
       ]);
   }
 
@@ -75,9 +75,9 @@ class CartService
   }
 
   // Vider le panier
-  public function clearCart(SweatShirts $sweatShirt)
+  public function clearCart()
   {
-    $cartItems = $this->getCartItems($sweatShirt);
+    $cartItems = $this->getCartItems();
 
     foreach ($cartItems as $item) {
       $this->entityManager->remove($item);

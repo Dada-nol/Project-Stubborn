@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+	{% include "header.html.twig" %}
 	<h1>Votre Panier</h1>
 
 	<table>
@@ -30,4 +31,6 @@
 
 <p>Total général :
 	{{ cart.getTotal() }}
-	€</p>{% endblock %}
+	€</p>
+
+{% include "footer.html.twig" %}{% endblock %}
