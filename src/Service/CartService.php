@@ -21,7 +21,6 @@ class CartService
     $this->sweatShirt = $sweatShirt;
   }
 
-  // Récupérer les articles du panier
   public function getCartItems()
   {
     $cart = $this->entityManager->getRepository(Cart::class)->findOneBy(['user' => $this->user]);
@@ -33,10 +32,8 @@ class CartService
       ]);
   }
 
-  // Ajouter un article au panier
   public function addToCart(SweatShirts $sweatShirt, $stock)
   {
-    // Vérifier si l'article existe déjà dans le panier
     $cart = $this->entityManager->getRepository(Cart::class)->findOneBy(['user' => $this->user]);
     $cartItem = $this->entityManager->getRepository(CartItem::class)->findOneBy([
       'cart' => $cart,
@@ -63,18 +60,15 @@ class CartService
       $this->entityManager->persist($cartItem);
     }
 
-    // Sauvegarder en base de données
     $this->entityManager->flush();
   }
 
-  // Supprimer un article du panier
   public function removeFromCart(CartItem $cartItem)
   {
     $this->entityManager->remove($cartItem);
     $this->entityManager->flush();
   }
 
-  // Vider le panier
   public function clearCart()
   {
     $cartItems = $this->getCartItems();

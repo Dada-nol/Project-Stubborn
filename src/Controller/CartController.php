@@ -3,10 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Cart;
-use App\Entity\CartItem;
 use App\Entity\Stock;
 use App\Entity\SweatShirts;
-use App\Form\CartType;
 use App\Service\CartService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
