@@ -4,42 +4,48 @@
 {% endblock %}
 
 {% block body %}
+	{% include "header.html.twig" %}
 	{% for flash_error in app.flashes('verify_email_error') %}
 		<div class="alert alert-danger" role="alert">{{ flash_error }}</div>
 	{% endfor %}
-	<div class="container">
-		<div class="row">
-			<div class="col">
-				<h1>Register</h1>
 
-				{{ form_errors(registrationForm) }}
-				{{ form_start(registrationForm) }}
-				<div class="mb-3">
-					<label class="form-label">Email address</label>
-					{{ form_row(registrationForm.name) }}
-				</div>
-				<div class="mb-3">
-					{{ form_row(registrationForm.email) }}
-				</div>
-				<div class="mb-3">
-					{{ form_row(registrationForm.plainPassword.first)}}
-					<div class="mb-3">
-						{{ form_row(registrationForm.plainPassword.second) }}
-					</div>
-					<div class="mb-3">
-						{{ form_row(registrationForm.roles) }}
-					</div>
-					{{ form_row(registrationForm.agreeTerms) }}
+	<div class="d-flex justify-content-center align-items-center vh-100 m-5">
 
-					<button type="submit" class="btn">Register</button>
-					{{ form_end(registrationForm) }}
-					<div>
-						<p>Déjà inscrit ?</p>
-						<button>
-							<a href="{{path('app_login')}}">Connectez vous</a>
-						</button>
-					</div>
-				</div>
+		<div class="border border-black p-5 m-5 d-flex flex-column justify-content-center align-items-center w-25">
+			<h3>S'inscrire</h3>
+		</br>
+		<div class="form border-top border-bottom">
+			{{ form_errors(registrationForm) }}
+			{{ form_start(registrationForm) }}
+			<div class="mb-3">
+				<label class="form-label">Nom d'utilisateur :</label>
+				{{ form_row(registrationForm.name, {'attr': {'class': 'form-control'}}) }}
 			</div>
-		</div>
-	{% endblock %}
+			<div class="mb-3">
+				<label class="form-label">Adresse mail :</label>
+				{{ form_row(registrationForm.email, {'attr': {'class': 'form-control'}}) }}
+			</div>
+			<div class="mb-3">
+				<label class="form-label">Mot de passe :</label>
+				{{ form_row(registrationForm.plainPassword.first, {'attr': {'class': 'form-control'}})}}
+				<div class="mb-3">
+					<label class="form-label">Confirmer le mot de passe :</label>
+					{{ form_row(registrationForm.plainPassword.second, {'attr': {'class': 'form-control'}}) }}
+				</div>
+				<div class="mb-3">
+					<label class="form-label">Choisir un rôle utilisateur</label>
+					{{ form_row(registrationForm.roles) }}
+				</div>
+				{{ form_row(registrationForm.agreeTerms) }}
+
+			</br>
+			<button type="submit" class="btn btn-primary">Créer un compte</button>
+			{{ form_end(registrationForm) }}</div>
+	</div>
+</br>
+<div>
+	<p>Déjà inscrit ?</p>
+	<a href="{{path('app_login')}}">
+		<button class="btn btn-primary">Se Connecter</button>
+	</a>
+</div></div></div>{% include "footer.html.twig" %}{% endblock %}
