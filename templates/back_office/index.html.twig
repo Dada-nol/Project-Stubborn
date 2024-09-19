@@ -1,3 +1,4 @@
+{% import 'form_macros.html.twig' as formMacros %}
 {% extends 'base.html.twig' %}
 
 {% block title %}Hello BackOfficeController!
@@ -5,8 +6,9 @@
 
 {% block body %}
 
+
 	{% if is_granted('ROLE_ADMIN') %}
-		{% import 'form_macros.html.twig' as formMacros %}
+		{% include "header.html.twig" %}
 
 		<div>
 			<div class="container border border-black w-50 mb-5 mt-5">
@@ -34,6 +36,7 @@
 			</div>
 		</div>
 	{% endfor %}
-</div>{% else %}
+</div>
+{% include "footer.html.twig" %}{% else %}
 <h3>Vous n'avez pas les autorisations nécessaire pour accéder à cette page</h3>
 <a href="{{path('app_home')}}">Retourner à l'accueil</a>{% endif %}{% endblock %}

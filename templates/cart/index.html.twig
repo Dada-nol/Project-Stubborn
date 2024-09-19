@@ -2,35 +2,56 @@
 
 {% block body %}
 	{% include "header.html.twig" %}
-	<h1>Votre Panier</h1>
 
-	<table>
-		<thead>
-			<tr>
-				<th>Article</th>
-				<th>Prix</th>
-				<th>Quantité</th>
-				<th>Total</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for item in items %}
-				<tr>
-					<td>{{ item.sweatshirt.name }}</td>
-					<td>{{ item.sweatshirt.price }}
-						€</td>
-					<td>{{ item.quantity }}</td>
-					<td>{{ item.sweatshirt.price * item.quantity }}
-						€</td>
-				</tr>
-			{% endfor %}
-		</tbody>
-	</table>
+	{% for item in items %}
+		<div class="container border border-black w-75 mt-5 mb-5">
+			<div class="row">
+
+				<div class="col-3 border">
+					<img src="{{asset('build/img/' ~ item.sweatshirt.name ~ '.jpeg')}}">
+				</div>
+
+				<div class="col-9 d-flex justify-content-center ">
+
+					<div class="m-5 d-flex flex-column align-items-center">
+						<p class="mb-5">Nom du produit</p>
+						<p>{{ item.sweatshirt.name }}</p>
+					</div>
+					<div class="m-5 d-flex flex-column align-items-center">
+						<p class="mb-5">Prix</p>
+						<p>{{ item.sweatshirt.price }}
+							€</p>
+					</div>
+					<div class="m-5 d-flex flex-column align-items-center">
+						<p class="mb-5">Taille</p>
+						<p>{{ item.stock.size }}</p>
+					</div>
+
+					<div class="align-self-end mb-3">
+						{{ form_start(deleteForms[item.id]) }}
+						<button type="submit" class="btn btn-light border border-black">Remove</button>
+						{{ form_end(deleteForms[item.id]) }}
+					</div>
+				</div>
+			</div>
+		</div>
+
+	{% endfor %}
+
 </br>
-{% include "payment/checkout.html.twig" %}
+<div class="d-flex flex-row justify-content-center  text-center">
+	<div class="border border-black mx-5 w-25 h-25">
+		<h4>Total :
+			{{ cart.getTotal() }}
+			€</h4>
+	</div>
+	<div class="d-flex-column">
+		{% include "payment/checkout.html.twig" %}
+		<a href="{{path("app_home")}}">
+			<button class="btn btn-success w-100 mb-5">Continuer mes achats</button>
+		</a>
+	</div>
 
-<p>Total général :
-	{{ cart.getTotal() }}
-	€</p>
+</div>
 
 {% include "footer.html.twig" %}{% endblock %}

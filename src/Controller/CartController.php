@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Cart;
+use App\Entity\CartItem;
 use App\Entity\Stock;
 use App\Entity\SweatShirts;
 use App\Service\CartService;
@@ -28,7 +29,18 @@ class CartController extends AbstractController
     {
         $user = $security->getUser();
         $cart = $entityManager->getRepository(Cart::class)->findOneBy(['user' => $user]);
-        return $this->render('cart/index.html.twig', ['items' => $cart->getItems(), 'cart' => $cart]);
+        $items = $cart->getItems();
+        // Créer un formulaire de suppression pour chaque item
+        $deleteForms = [];
+        foreach ($items as $item) {
+            $deleteForms[$item->getId()] = $this->createFormBuilder()
+                ->setAction($this->generateUrl('deleteItem', ['id' => $item->getId()]))
+                ->setMethod('DELETE')
+                ->getForm()
+                ->createView();
+        }
+
+        return $this->render('cart/index.html.twig', ['items' => $items, 'cart' => $cart, 'deleteForms' => $deleteForms]);
     }
 
     #[Route('/cart/add/{id}', name: 'cart_add')]
@@ -39,6 +51,21 @@ class CartController extends AbstractController
         $stock = $entityManager->getRepository(Stock::class)->find($stockId);
 
         $this->cartService->addToCart($sweatshirt, $stock);
+
+        return $this->redirectToRoute('cart');
+    }
+
+    #[Route('/cart/deleteItem/{id}', name: 'deleteItem')]
+    public function deleteItem(EntityManagerInterface $entityManager, Security $security, int $id): Response
+    {
+        $cartItem = $entityManager->getRepository(CartItem::class)->find($id);
+
+        if (!$cartItem) {
+            throw $this->createNotFoundException('Item not found');
+        }
+
+        $entityManager->remove($cartItem);
+        $entityManager->flush();
 
         return $this->redirectToRoute('cart');
     }

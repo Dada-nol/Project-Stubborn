@@ -1,0 +1,4 @@
+<form method="post" action="{{ path('deleteItem', {'id': item.id}) }}" onsubmit="return confirm('Are you sure you want to remove this item?');">
+	<input name="_method" value="DELETE">
+	{{ csrf_field() }}
+</form>
