@@ -25,3 +25,7 @@ services:
   App\Service\FileUploader:
     arguments:
       $targetDirectory: "%kernel.project_dir%/public/uploads/img"
+
+  App\Service\StripeService:
+    arguments:
+      $stripeApiKey: "%env(STRIPE_API_KEY)%"
