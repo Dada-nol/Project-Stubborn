@@ -11,7 +11,7 @@
 					<img src="{{asset('build/img/' ~ item.sweatshirt.name ~ '.jpeg')}}">
 				</div>
 
-				<div class="col-9 d-flex justify-content-center ">
+				<div class="col-9 d-flex justify-content-between">
 
 					<div class="m-5 d-flex flex-column align-items-center">
 						<p class="mb-5">Nom du produit</p>
@@ -25,13 +25,12 @@
 					<div class="m-5 d-flex flex-column align-items-center">
 						<p class="mb-5">Taille</p>
 						<p>{{ item.stock.size }}</p>
-					</div>
-
-					<div class="align-self-end mb-3">
 						{{ form_start(deleteForms[item.id]) }}
-						<button type="submit" class="btn btn-light border border-black">Remove</button>
+						<button type="submit" class="btn btn-light border border-black mt-5">Supprimer</button>
 						{{ form_end(deleteForms[item.id]) }}
 					</div>
+
+
 				</div>
 			</div>
 		</div>

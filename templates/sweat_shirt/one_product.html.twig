@@ -7,39 +7,46 @@
 	{% include "header.html.twig" %}
 	{% if product %}
 
-		<div class="col-md-6 col-lg-4 d-flex justify-content-center align-items-center">
+		<article class="container border border-black my-5 w-50">
+			<div class="row d-flex justify-content-center align-items-center">
 
-			<a class="card" href="{{ path('app_one_product', {'id': product.id}) }}">
-				<div>
+				<div class="card col-md-6 col-lg-4" href="{{ path('app_one_product', {'id': product.id}) }}">
 					<img src="{{ asset('uploads/img/' ~ product.imageFilename) }}" class="card-img-top img-fluid" alt="Représentation graphique de ce sweat-shirt">
 				</div>
-				<div class="card-body">
-					<p class="card-title">{{ product.name }}</p>
-					<p class="card-text">{{ product.price }}</p>
-				</div>
-			</a>
-			<form action="{{ path('cart_add', {'id': product.id}) }}" method="POST">
-				<label for="size">Choisir une taille :</label>
-				<select name="size" id="size">
-					{% for stock in product.stocks %}
-						{% if stock.quantity > 0 %}
-							<option value="{{ stock.id }}">{{ stock.size.size }}
-								({{ stock.quantity }}
-								disponibles)</option>
-
-						{% else %}
-
-							<option value="{{ stock.id }}">{{ stock.size.size }}
-								(Produit indisponible)</option>
-
-						{% endif %}
-					{% endfor %}
-				</select>
-				<button type="submit">Ajouter au panier</button>
-			</form>
 
 
-		</div>
+				<form action="{{ path('cart_add', {'id': product.id}) }}" method="POST" class="col">
+					<div class="d-flex flew-row justify-content-evenly">
+						<div>
+							<p>{{ product.name }}</p>
+							<p>{{ product.price }}</p>
+						</div>
+						<div>
+							<select name="size" id="size" class="form-select" aria-label="Tailles">
+								<option value="Tailles">Selectionner une taille</option>
+								{% for stock in product.stocks %}
+									{% if stock.quantity > 0 %}
+										<option value="{{ stock.id }}">{{ stock.size.size }}
+											({{ stock.quantity }}
+											disponibles)</option>
+
+									{% else %}
+
+										<option value="{{ stock.id }}">{{ stock.size.size }}
+											(Produit indisponible)</option>
+
+									{% endif %}
+								{% endfor %}
+							</select>
+						</div>
+					</div>
+					<div class="d-flex justify-content-center">
+						<button class="btn btn-light border border-black" type="submit">Ajouter au panier</button>
+					</div>
+				</form>
+
+			</div>
+		</article>
 	{% endif %}
 	{% include "footer.html.twig" %}
 {% endblock %}
