@@ -30,7 +30,7 @@ class CartController extends AbstractController
         $user = $security->getUser();
         $cart = $entityManager->getRepository(Cart::class)->findOneBy(['user' => $user]);
         $items = $cart->getItems();
-        // Créer un formulaire de suppression pour chaque item
+
         $deleteForms = [];
         foreach ($items as $item) {
             $deleteForms[$item->getId()] = $this->createFormBuilder()
