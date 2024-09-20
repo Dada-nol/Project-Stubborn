@@ -2,10 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\Stock;
+
 use App\Entity\SweatShirts;
-use App\Entity\TailleSweat;
-use App\Form\AddToCartType;
 use App\Form\DeleteSweatType;
 use App\Form\ProductFilterType;
 use App\Form\SweatShirtType;

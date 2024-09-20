@@ -24,9 +24,9 @@ class SweatShirtType extends AbstractType
                 'label' => false,
             ])
             ->add('price', NumberType::class, [
-                'scale' => 2,  // Permet deux chiffres après la virgule
+                'scale' => 2,
                 'attr' => [
-                    'step' => 0.01,  // Autorise les incréments de 0.01
+                    'step' => 0.01,
                 ],
                 'label' => false,
             ])

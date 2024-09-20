@@ -69,7 +69,6 @@ class Cart
     public function removeItem(CartItem $item): static
     {
         if ($this->items->removeElement($item)) {
-            // set the owning side to null (unless already changed)
             if ($item->getCart() === $this) {
                 $item->setCart(null);
             }
