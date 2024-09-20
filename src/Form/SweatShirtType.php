@@ -8,6 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -23,9 +24,9 @@ class SweatShirtType extends AbstractType
                 'label' => false,
             ])
             ->add('price', NumberType::class, [
-                'scale' => 2,  // Permet deux chiffres après la virgule
+                'scale' => 2,
                 'attr' => [
-                    'step' => 0.01,  // Autorise les incréments de 0.01
+                    'step' => 0.01,
                 ],
                 'label' => false,
             ])

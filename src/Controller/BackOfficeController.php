@@ -22,7 +22,7 @@ class BackOfficeController extends AbstractController
     #[Route('/admin', name: "back_office")]
     public function backOffice(Request $request, ManagerRegistry $manager, FileUploader $fileUploader, EntityManagerInterface $entityManager): Response
     {
-        // Formulaire pour add
+
         $product = new SweatShirts();
         $sizes = $manager->getRepository(TailleSweat::class)->findAll();
 
@@ -52,7 +52,7 @@ class BackOfficeController extends AbstractController
 
         $sweats = $entityManager->getRepository(SweatShirts::class)->findAll();
 
-        // Formuliare pour update
+
         $updateForms = [];
         $deleteForms = [];
 
@@ -66,7 +66,7 @@ class BackOfficeController extends AbstractController
 
             $updateForms[$sweat->getId()] = $updateForm->createView();
 
-            // Formulaire de suppression avec ID dans l'action
+
             $deleteForm = $this->createForm(DeleteSweatType::class, $sweat, [
                 'action' => $this->generateUrl('delete', ['id' => $sweat->getId()]),
 

@@ -16,6 +16,11 @@ class TailleSweat
     #[ORM\Column(length: 255)]
     private ?string $size = null;
 
+    public function __toString()
+    {
+        return $this->size;
+    }
+
     public function getSize(): ?string
     {
         return $this->size;
