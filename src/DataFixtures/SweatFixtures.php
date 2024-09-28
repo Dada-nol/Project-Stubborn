@@ -2,7 +2,9 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Stock;
 use App\Entity\SweatShirts;
+use App\Entity\TailleSweat;
 use App\Service\FileUploader;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -12,6 +14,17 @@ class SweatFixtures extends Fixture
 
   public function load(ObjectManager $manager): void
   {
+
+    $sizes = ['XS', 'S', 'M', 'L', 'XL'];
+    $sizeLabel = [];
+
+    foreach ($sizes as $sizeName) {
+      $size = new TailleSweat();
+      $size->setSize($sizeName);
+
+      $manager->persist($size);
+      $sizeLabel[$sizeName] = $size;
+    }
 
     $sweatshirtData = [
       [
@@ -94,7 +107,19 @@ class SweatFixtures extends Fixture
       $sweatshirt->setImageFilename($data['ImageFilename']);
 
       $manager->persist($sweatshirt);
+
+
+
+      foreach ($sizeLabel as $size) {
+        $stock = new Stock();
+        $stock->setSize($size);
+        $stock->setSweatShirt($sweatshirt);
+        $stock->setquantity(2);
+
+        $manager->persist($stock);
+      }
     }
+
     $manager->flush();
   }
 }
