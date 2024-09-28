@@ -17,7 +17,7 @@ class ProductFilterType extends AbstractType
                 'label' => false,
                 'choices' => [
                     '10 - 29 €' => '10 - 29',
-                    '30 - 35 €' => '30 - 35',
+                    '29 - 35 €' => '29 - 35',
                     '35 - 50 €' => '35 - 50',
 
                 ],

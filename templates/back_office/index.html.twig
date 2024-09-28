@@ -21,7 +21,7 @@
 		<div class="row">
 
 			<div class="col-3 border ">
-				<img src="{{asset('build/img/' ~ product.name ~ '.jpeg')}}">
+				<img src="{{ asset('uploads/img/' ~ product.imageFilename) }}" class="card-img-top img-fluid" alt="Représentation graphique de ce sweat-shirt">
 			</div>
 			<div class="col-9 d-flex justify-content-center align-items-center">
 				{{ formMacros.renderForm(updateForms[product.id], 'Mettre à jour') }}
