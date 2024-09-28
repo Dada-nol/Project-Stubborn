@@ -31,70 +31,70 @@ class SweatFixtures extends Fixture
         'name' => 'Blackbelt',
         'price' => 29.90,
         'isPromoted' => false,
-        'ImageFilename' => 'Blackbelt.jpeg',
+        'ImageFilename' => 'Blackbelt-66e4a04503ee7.jpg',
       ],
 
       [
         'name' => 'BlueBelt',
         'price' => 29.90,
         'isPromoted' => false,
-        'ImageFilename' => 'BlueBelt.jpeg',
+        'ImageFilename' => 'BlueBelt-66e0564b83101.jpg',
       ],
 
       [
         'name' => 'Street',
         'price' => 34.50,
         'isPromoted' => false,
-        'ImageFilename' => 'Street.jpeg',
+        'ImageFilename' => 'Street-66e49fd889572.jpg',
       ],
 
       [
         'name' => 'Pokeball',
         'price' => 45.00,
         'isPromoted' => true,
-        'ImageFilename' => 'Pokeball.jpeg',
+        'ImageFilename' => 'Pokeball-66e337337a217.jpg',
       ],
 
       [
         'name' => 'PinkLady',
         'price' => 29.90,
         'isPromoted' => false,
-        'ImageFilename' => 'PinkLady.jpeg',
+        'ImageFilename' => 'PinkLady-66e49ef2923eb.jpg',
       ],
 
       [
         'name' => 'Snow',
         'price' => 32.00,
         'isPromoted' => false,
-        'ImageFilename' => 'Snow.jpeg',
+        'ImageFilename' => 'Snow-66e7db557188c.jpg',
       ],
 
       [
         'name' => 'Greyback',
         'price' => 28.50,
         'isPromoted' => false,
-        'ImageFilename' => 'Greyback.jpeg',
+        'ImageFilename' => 'Greyback-66e49f2ed19e0.jpg',
       ],
 
       [
         'name' => 'BlueCloud',
         'price' => 45.00,
         'isPromoted' => false,
-        'ImageFilename' => 'BlueCloud.jpeg',
+        'ImageFilename' => 'BlueCloud-66e49f4c00449.jpg',
       ],
 
       [
         'name' => 'BornInUsa',
         'price' => 59.90,
         'isPromoted' => true,
-        'ImageFilename' => 'BornInUsa.jpeg',
+        'ImageFilename' => 'BornInUsa-66e49f6980f4d.jpg',
       ],
 
       [
         'name' => 'GreenSchool',
         'price' => 42.20,
         'isPromoted' => true,
-        'ImageFilename' => 'GreenSchool.jpeg',
+        'ImageFilename' => 'GreenSchool-66e49f804221a.jpg',
       ],
 
     ];
