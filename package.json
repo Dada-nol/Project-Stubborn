@@ -23,6 +23,7 @@
     },
     "dependencies": {
         "@hotwired/turbo": "^8.0.5",
+        "@popperjs/core": "^2.11.8",
         "bootstrap": "^5.3.3"
     }
 }
