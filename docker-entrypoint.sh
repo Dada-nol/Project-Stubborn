@@ -3,8 +3,6 @@
 # Installer les dépendances PHP
 composer install --no-dev --optimize-autoloader --classmap-authoritative
 
-# composer require doctrine/doctrine-fixtures-bundle 
-
 # Exécuter les migrations de la base de données
 # php bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
 
