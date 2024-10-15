@@ -27,12 +27,11 @@ RUN curl -sS https://get.symfony.com/cli/installer | bash && \
 RUN curl -sL https://deb.nodesource.com/setup_20.x | bash - && \
     apt-get install -y nodejs
 
+ENV APP_ENV=prod
+
 # Copier le code du projet
 COPY . /var/www/
 WORKDIR /var/www/
-
-# Installer les dépendances PHP du projet avec Composer, y compris symfony/ux-turbo
-RUN composer install 
 
 # Permissions
 RUN chown -R www-data:www-data /var/www
