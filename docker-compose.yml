@@ -11,6 +11,16 @@ services:
     networks:
       - dev
 
+  messenger:
+    image: php:8.2-cli
+    container_name: stubborn_messenger
+    working_dir: /var/www
+    volumes:
+      - .:/var/www
+    command: ["php", "bin/console", "messenger:consume", "async"]
+    networks:
+      - app-network
+
 networks:
   dev:
 

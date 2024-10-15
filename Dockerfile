@@ -47,8 +47,6 @@ RUN composer install --no-dev --optimize-autoloader --classmap-authoritative
 # Exécuter les migrations de la base de données
 RUN php bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
 
-RUN php bin/console messenger:consume async --no-interaction
-
 ENTRYPOINT ["apache2-foreground"]
 
 # Exposer le port 80
