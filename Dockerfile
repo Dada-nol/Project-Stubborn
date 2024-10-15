@@ -36,11 +36,12 @@ WORKDIR /var/www/
 # Permissions
 RUN chown -R www-data:www-data /var/www
 
-# Configuration d'Apache
-COPY ./docker/apache.conf /etc/apache2/sites-available/000-default.conf
+COPY apache.conf /etc/apache2/conf-available/servername.conf
+RUN a2enconf servername
 
-# Migrations et fixtures à l'exécution du conteneur
-CMD apache2-foreground
+COPY docker-entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+ENTRYPOINT ["docker-entrypoint.sh"]
 
 # Exposer le port 80
 EXPOSE 80
