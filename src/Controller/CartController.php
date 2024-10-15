@@ -32,12 +32,14 @@ class CartController extends AbstractController
         $items = $cart->getItems();
 
         $deleteForms = [];
-        foreach ($items as $item) {
-            $deleteForms[$item->getId()] = $this->createFormBuilder()
-                ->setAction($this->generateUrl('deleteItem', ['id' => $item->getId()]))
-                ->setMethod('DELETE')
-                ->getForm()
-                ->createView();
+        if ($items) {
+            foreach ($items as $item) {
+                $deleteForms[$item->getId()] = $this->createFormBuilder()
+                    ->setAction($this->generateUrl('deleteItem', ['id' => $item->getId()]))
+                    ->setMethod('DELETE')
+                    ->getForm()
+                    ->createView();
+            }
         }
 
         return $this->render('cart/index.html.twig', ['items' => $items, 'cart' => $cart, 'deleteForms' => $deleteForms]);

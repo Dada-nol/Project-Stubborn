@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\Cart;
 use App\Entity\CartItem;
+use App\Entity\Stock;
 use App\Entity\SweatShirts;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -32,7 +33,7 @@ class CartService
       ]);
   }
 
-  public function addToCart(SweatShirts $sweatShirt, $stock)
+  public function addToCart(SweatShirts $sweatShirt, Stock $stock)
   {
     $cart = $this->entityManager->getRepository(Cart::class)->findOneBy(['user' => $this->user]);
     $cartItem = $this->entityManager->getRepository(CartItem::class)->findOneBy([
