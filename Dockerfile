@@ -44,6 +44,10 @@ RUN a2enconf servername
 # Exécuter les migrations de la base de données
 RUN php bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
 
+RUN composer require doctrine/doctrine-fixtures-bundle
+# Charger les fixtures (si nécessaire)
+RUN php bin/console doctrine:fixtures:load --no-interaction
+
 # Commande d'entrée
 CMD ["apache2-foreground"]
 
