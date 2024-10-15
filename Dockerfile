@@ -31,7 +31,7 @@ ENV APP_ENV=prod
 
 # Copier le code du projet
 COPY . /var/www/
-WORKDIR /var/www/
+WORKDIR /var/www/public
 
 # Permissions
 RUN chown -R www-data:www-data /var/www
