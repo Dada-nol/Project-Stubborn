@@ -39,9 +39,8 @@ RUN chown -R www-data:www-data /var/www
 COPY apache.conf /etc/apache2/conf-available/servername.conf
 RUN a2enconf servername
 
-COPY docker-entrypoint.sh /docker-entrypoint.sh
-RUN chmod +x /docker-entrypoint.sh
-ENTRYPOINT ["/docker-entrypoint.sh"]
+
+ENTRYPOINT ["docker-entrypoint.sh"]
 
 # Commande d'entrée
 CMD ["apache2-foreground"]
