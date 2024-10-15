@@ -7,7 +7,7 @@ services:
     ports:
       - "8000:80"
     volumes:
-      - /d/ExercicesVSC/Devoirs/Stubborn_project/public:/var/www/public
+      # - /d/ExercicesVSC/Devoirs/Stubborn_project/public:/var/www/public
     networks:
       - dev
 
