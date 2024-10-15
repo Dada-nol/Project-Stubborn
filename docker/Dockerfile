@@ -1,0 +1,47 @@
+# Utilise une image PHP-FPM avec Apache
+FROM php:8.2-apache
+
+# Installer des dépendances système et PHP
+RUN apt-get update && apt-get install -y \
+    libzip-dev \
+    git \
+    zip \
+    curl \
+    npm \
+    && docker-php-ext-install pdo pdo_mysql
+
+# Installer les extensions PHP nécessaires
+ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
+RUN chmod +x /usr/local/bin/install-php-extensions && \
+    install-php-extensions intl opcache
+
+# Installer Composer
+RUN curl -sSk https://getcomposer.org/installer | php -- --disable-tls && \
+    mv composer.phar /usr/local/bin/composer
+
+# Installer Symfony CLI
+RUN curl -sS https://get.symfony.com/cli/installer | bash && \
+    mv /root/.symfony*/bin/symfony /usr/local/bin/symfony
+
+# Installer Node.js et Webpack Encore
+RUN curl -sL https://deb.nodesource.com/setup_20.x | bash - && \
+    apt-get install -y nodejs
+
+# Copier le code du projet
+COPY . /var/www/
+WORKDIR /var/www/
+
+# Installer les dépendances PHP du projet avec Composer, y compris symfony/ux-turbo
+RUN composer install 
+
+# Permissions
+RUN chown -R www-data:www-data /var/www
+
+# Configuration d'Apache
+COPY ./docker/apache.conf /etc/apache2/sites-available/000-default.conf
+
+# Migrations et fixtures à l'exécution du conteneur
+CMD apache2-foreground
+
+# Exposer le port 80
+EXPOSE 80
