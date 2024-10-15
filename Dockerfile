@@ -41,16 +41,20 @@ RUN chown -R www-data:www-data /var/www
 COPY apache.conf /etc/apache2/conf-available/servername.conf
 RUN a2enconf servername
 
-
-
 # Copier le script d'entrypoint
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 
 # Donner les permissions d'exécution au script
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
-# Utiliser le script d'entrypoint
-ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+RUN composer install --no-dev --optimize-autoloader --classmap-authoritative
+
+# Exécuter les migrations de la base de données
+RUN php bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
+
+RUN php bin/console messenger:consume async --no-interaction
+
+ENTRYPOINT ["apache2-foreground"]
 
 # Exposer le port 80
 EXPOSE 80
