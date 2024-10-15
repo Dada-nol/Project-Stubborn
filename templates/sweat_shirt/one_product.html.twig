@@ -23,7 +23,6 @@
 						</div>
 						<div>
 							<select name="size" id="size" class="form-select" aria-label="Tailles">
-								<option value="Tailles">Selectionner une taille</option>
 								{% for stock in product.stocks %}
 									{% if stock.quantity > 0 %}
 										<option value="{{ stock.id }}">{{ stock.size.size }}
